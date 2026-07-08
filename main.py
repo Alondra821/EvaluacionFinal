@@ -16,6 +16,7 @@ inscripciones = {
     "F006": [18990, 15]
 }
 
+
 def cupos_tipo(tipo):
     total = 0
 
@@ -24,7 +25,27 @@ def cupos_tipo(tipo):
             total += inscripciones[codigo][1]
 
     print("El total de cupos disponibles es:", total)
-    
+
+
+def busqueda_precio(p_min, p_max):
+    encontrados = []
+
+    for codigo in inscripciones:
+        precio = inscripciones[codigo][0]
+        cupos = inscripciones[codigo][1]
+
+        if precio >= p_min and precio <= p_max and cupos != 0:
+            nombre = planes[codigo][0]
+            encontrados.append(nombre + "--" + codigo)
+
+    encontrados.sort()
+
+    if len(encontrados) == 0:
+        print("No hay planes en ese rango de precios.")
+    else:
+        print("Los planes encontrados son:", encontrados)
+
+
 while True:
     print("\n========== MENÚ PRINCIPAL ==========")
     print("1. Cupos por tipo de plan")
@@ -41,21 +62,71 @@ while True:
         tipo = input("Ingrese tipo de plan a consultar: ")
         cupos_tipo(tipo)
 
+
     elif opcion == "2":
-        pass
+        try:
+            p_min = int(input("Ingrese precio mínimo: "))
+            p_max = int(input("Ingrese precio máximo: "))
+
+            busqueda_precio(p_min, p_max)
+
+        except ValueError:
+            print("Ingrese valores numéricos.")
+
 
     elif opcion == "3":
-        pass
+        codigo = input("Ingrese código del plan a actualizar: ").upper()
+
+        if codigo in inscripciones:
+            nuevo_precio = int(input("Ingrese nuevo precio: "))
+
+            inscripciones[codigo][0] = nuevo_precio
+
+            print("Precio actualizado correctamente.")
+        else:
+            print("El código del plan no existe.")
+
 
     elif opcion == "4":
-        pass
+        codigo = input("Ingrese código del nuevo plan: ").upper()
+
+        if codigo in planes:
+            print("El código ya existe.")
+
+        else:
+            nombre = input("Ingrese nombre del plan: ")
+            tipo = input("Ingrese tipo (mensual/trimestral/anual): ")
+            duracion = int(input("Ingrese duración en meses: "))
+
+            clases = input("¿Incluye clases? (True/False): ").lower() == "true"
+            entrenador = input("¿Incluye entrenador? (True/False): ").lower() == "true"
+            horario = input("Ingrese horario: ")
+
+            precio = int(input("Ingrese precio: "))
+            cupos = int(input("Ingrese cupos disponibles: "))
+
+            planes[codigo] = [nombre, tipo, duracion, clases, entrenador, horario]
+            inscripciones[codigo] = [precio, cupos]
+
+            print("Plan agregado correctamente.")
+
 
     elif opcion == "5":
-        pass
+        codigo = input("Ingrese código del plan a eliminar: ").upper()
+
+        if codigo in planes:
+            del planes[codigo]
+            del inscripciones[codigo]
+
+            print("Plan eliminado correctamente.")
+        else:
+            print("El código del plan no existe.")
+
 
     elif opcion == "6":
         print("Programa finalizado.")
         break
 
+
     else:
-        print("Debe seleccionar una opción válida")
+        print("Debe seleccionar una opción válida.")
