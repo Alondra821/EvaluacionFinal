@@ -16,6 +16,15 @@ inscripciones = {
     "F006": [18990, 15]
 }
 
+def cupos_tipo(tipo):
+    total = 0
+
+    for codigo in planes:
+        if planes[codigo][1].lower() == tipo.lower():
+            total += inscripciones[codigo][1]
+
+    print("El total de cupos disponibles es:", total)
+    
 while True:
     print("\n========== MENÚ PRINCIPAL ==========")
     print("1. Cupos por tipo de plan")
@@ -29,7 +38,8 @@ while True:
     opcion = input("Ingrese opción: ")
 
     if opcion == "1":
-        pass
+        tipo = input("Ingrese tipo de plan a consultar: ")
+        cupos_tipo(tipo)
 
     elif opcion == "2":
         pass
